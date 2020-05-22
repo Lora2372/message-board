@@ -1,12 +1,16 @@
+import React from 'react';
 import { createStackNavigator } from 'react-navigation-stack';
 import Home from '../screens/home';
 import ViewPost from '../screens/viewPost';
+import Header from '../shared/header';
 
 const screens = {
   Home: {
     screen: Home,
-    navigationOptions: {
-      title: 'Positive news!',
+    navigationOptions: ({ navigation }) => {
+      return {
+        headerTitle: () => <Header navigation={navigation} title='Positive news!' />,
+      }
     }
   },
   ViewPost: {
@@ -17,7 +21,6 @@ const screens = {
   },
 };
 
-// home stack navigator screens
 const HomeStack = createStackNavigator(screens, {
   defaultNavigationOptions: {
     headerTintColor: '#444',
