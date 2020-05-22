@@ -15,8 +15,10 @@ const screens = {
   },
   ViewPost: {
     screen: ViewPost,
-    navigationOptions: {
-      title: 'View post',
+    navigationOptions: ({ navigation }) => {
+      return {
+        headerTitle: () => <Header navigation={navigation} title='View post' />,
+      }
     }
   },
 };

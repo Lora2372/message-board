@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { StyleSheet, View, Text, TouchableOpacity, FlatList, Button, Modal } from 'react-native';
+import { StyleSheet, View, Text, TouchableOpacity, FlatList, Button, Modal, ImageBackground, Keyboard } from 'react-native';
 import { globalStyles } from '../styles/global';
 import Card from '../shared/card';
-import { MaterialIcons } from '@expo/vector-icons';
+import NewPost from './newPost';
+import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 
 export default function Home({ navigation }) {
   const [modalOpen, setModalOpen] = useState(false);
@@ -13,38 +14,39 @@ export default function Home({ navigation }) {
     { key: '3', title: 'UK Coronavirus Vaccine Trials Get Underway', author: 'Reylah', body: 'Today (23 April), the first human trials of a potential Covid-19 vaccine get underway from the University of Oxford. Scientists working on the vaccine say the injection they are developing has an 80% chance of success reports Sky News.' }
   ]);
 
+  const addPost = (post) => {
+    post.key = Math.random().toString();
+    setPosts((currentPosts) => {
+      return [post, ...currentPosts];
+    });
+    setModalOpen(false);
+  }
+
   return (
-    <View style={globalStyles.container}>
-
-      <Modal visible={modalOpen} animationType='slide'>
-        <View style={StyleSheet.modalContent}>
-          <MaterialIcons
-            name='close'
-            size={24}
-            style={{ ...styles.modalToggle, ...styles.modalClose }}
-            onPress={() => setModalOpen(false)}
-          />
-          <Text>Hello from modal</Text>
-        </View>
-      </Modal>
-
-      <MaterialIcons
-        name='add'
-        size={24}
-        style={styles.modalToggle}
-        onPress={() => setModalOpen(true)}
-      />
+    <ImageBackground source={require('../assets/homeBackground.jpg')} style={globalStyles.backgroundImage}>
+      <View style={globalStyles.container}>
 
 
-      <FlatList data={posts} renderItem={({ item }) => (
-        <TouchableOpacity onPress={() => navigation.navigate('ViewPost', item)}>
-          <Card>
-            <Text style={globalStyles.titleText}>{item.title}</Text>
-          </Card>
-        </TouchableOpacity>
-      )} />
-      <Button title='New post!' />
-    </View>
+        <Modal visible={modalOpen} animationType='slide'>
+          
+            <View style={styles.modalContent}>
+
+              <NewPost addPost={addPost} />
+              <Button title='Close' onPress={() => setModalOpen(false)} />
+            </View>
+        </Modal>
+
+
+        <FlatList data={posts} renderItem={({ item }) => (
+          <TouchableOpacity onPress={() => navigation.navigate('ViewPost', item)}>
+            <Card>
+              <Text style={globalStyles.titleText}>{item.title}</Text>
+            </Card>
+          </TouchableOpacity>
+        )} />
+        <Button title='New post!' onPress={() => setModalOpen(true)} />
+      </View>
+    </ImageBackground>
 
   );
 }
@@ -64,5 +66,5 @@ const styles = StyleSheet.create({
   },
   modalContent: {
     flex: 1,
-  }
+  },
 });
