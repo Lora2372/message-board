@@ -26,5 +26,13 @@ export const globalStyles = StyleSheet.create({
   backgroundImage: {
     flex: 1,
     resizeMode: 'cover',
-  }
+  },
+  errorText: {
+    color: 'white',
+    fontWeight: 'bold',
+    marginBottom: 10,
+    marginTop: 6,
+    textAlign: 'center',
+    
+  },
 });
