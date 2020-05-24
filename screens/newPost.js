@@ -3,6 +3,7 @@ import { StyleSheet, Button, TextInput, View, Text, ImageBackground, TouchableWi
 import { globalStyles } from '../styles/global.js';
 import { Formik } from 'formik';
 import * as yup from 'yup';
+import FlatButton from '../shared/button';
 
 const PostSchema = yup.object({
     author: yup.string()
@@ -52,7 +53,7 @@ export default function NewPost({ addPost }) {
 
                                 <TextInput
                                     style={globalStyles.input}
-                                    multiline
+                                    multiline minHeight={100}
                                     placeholder='Heartwarming story!'
                                     onChangeText={props.handleChange('body')}
                                     value={props.values.body}
@@ -60,7 +61,7 @@ export default function NewPost({ addPost }) {
                                 />
                                 <Text style={globalStyles.errorText}>{props.touched.body && props.errors.body}</Text>
 
-                                <Button color='maroon' title="Post" onPress={props.handleSubmit} />
+                                <FlatButton text='submit' onPress={props.handleSubmit} />
                             </View>
                         )}
                     </Formik>
